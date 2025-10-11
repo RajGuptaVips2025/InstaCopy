@@ -14,7 +14,7 @@ import Home from './components/Home/Home';
 import Explore from './components/Explore/Explore';
 import ReelSection from './components/Explore/ReelSection';
 import { ProfileEdit } from './components/Profile/profile-edit';
-import { ChatComponent } from './components/Chat/instagram-chat';
+import { ChatComponent } from './components/Chat/ChatComponent';
 import Sidebar from './components/Home/Sidebar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

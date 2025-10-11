@@ -5,59 +5,17 @@ const cloudinary = require('../config/cloudinary'); // Import Cloudinary
 const { getReciverSocketId, io } = require('../socket/socket');
 
 
-// const getUserAndPosts = async (req, res) => {
-//   const page = parseInt(req.query.page) || 0; // Default page to 0 if not provided
-//   const limit = parseInt(req.query.limit) || 10; // Default limit to 10 if not provided
-//   try {
-//     const { username } = req.params;
-//     const user = await User.findOne({ username }).select('-password');
-
-//     if (!user) {
-//       return res.status(404).json({ error: 'User not found' });
-//     }
-
-//     const posts = await Post.find({ author: user._id })
-//       .skip(page * limit).limit(limit)
-//       .populate('author', 'username profilePicture')
-//       .populate('comments.user', 'username');
-
-//     res.json({ user, posts });
-//   } catch (error) {
-//     res.status(500).json({ error: 'Server error' });
-//   }
-// };
-
 const getUserAndPosts = async (req, res) => {
-  const page = parseInt(req.query.page) || 0; 
-  const limit = parseInt(req.query.limit) || 10;
-  const { username } = req.params;
-  const { loggedUserId } = req.query; // 💡 Extract the new parameter
-
+  const page = parseInt(req.query.page) || 0; // Default page to 0 if not provided
+  const limit = parseInt(req.query.limit) || 10; // Default limit to 10 if not provided
   try {
-    let user;
-
-    // 1. 💡 Priority Search: Check if a loggedUserId was passed (i.e., user is viewing their own profile)
-    if (loggedUserId) {
-      // Search by the unique ID first
-      user = await User.findById(loggedUserId).select('-password');
-
-      // Optionally, add a check to make sure the found user's username matches the URL
-      if (user && user.username !== username) {
-         // If ID exists but username doesn't match the URL, something is wrong, treat as not found
-         user = null; 
-      }
-    }
-
-    // 2. Fallback Search: If not found by ID, or no ID was passed, search by the URL username
-    if (!user) {
-      user = await User.findOne({ username }).select('-password');
-    }
+    const { username } = req.params;
+    const user = await User.findOne({ username }).select('-password');
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // ... rest of the code remains the same ...
     const posts = await Post.find({ author: user._id })
       .skip(page * limit).limit(limit)
       .populate('author', 'username profilePicture')
@@ -68,7 +26,6 @@ const getUserAndPosts = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
-
 
 const getFollowing = async (req, res) => {
   try {
@@ -264,4 +221,25 @@ const getUserDashboard = async (req, res) => {
   }
 };
 
-module.exports = { getUserAndPosts, getFollowing, following, updateProfile, addToReelHistory, getUserDashboard };
+// usersController.js (New function)
+const checkUsernameAvailability = async (req, res) => {
+  try {
+    const { username } = req.query;
+    if (!username) {
+      return res.status(400).json({ message: 'Username is required' });
+    }
+
+    const user = await User.findOne({ username });
+
+    // If user is null, the username is available
+    const isAvailable = !user; 
+
+    res.status(200).json({ isAvailable });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+// Add this to your module.exports
+
+module.exports = { getUserAndPosts, getFollowing, following, updateProfile, addToReelHistory, getUserDashboard, checkUsernameAvailability };

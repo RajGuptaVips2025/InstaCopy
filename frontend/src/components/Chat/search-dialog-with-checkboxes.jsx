@@ -51,6 +51,7 @@ export function SearchDialogWithCheckboxesComponent({ socketRef }) {
     if (socketRef.current) {
       socketRef.current.on('groupCreated', ({ groupChat }) => {
         const updatedFollowingUsers = [...arrOfFollowingUsers, groupChat];
+        console.log(updatedFollowingUsers, "line 53");
         dispatch(setFollowingUsers(updatedFollowingUsers));
       });
     }

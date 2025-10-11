@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 function MessagesMember({ socketRef }) {
     const followingUsers = useSelector((state) => state.counter.followingUsers);
+    console.log(followingUsers);
     const onlineUsers = useSelector((state) => state.counter.onlineUsers);
     const dispatch = useDispatch();
 

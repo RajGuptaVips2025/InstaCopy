@@ -89,6 +89,7 @@ const sendMessage = async (req, res) => {
       mediaUrl: messageType !== 'text' ? mediaUrl : undefined,
       messageType,
     });
+    console.log(newMessage);
     conversation.messages.push(newMessage._id);
     conversation.lastMessage = {
       messageId: newMessage._id,

@@ -250,7 +250,7 @@ function ChatBox() {
                             <div>
                                 <Link to={`/profile/${suggestedUser?.username}`}>
                                     <p className="font-semibold text-xs md:text-sm dark:text-white">{suggestedUser && 'groupName' in suggestedUser ? suggestedUser?.groupName : suggestedUser?.username}</p>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">Active 1h ago</p>
+                                    {/* <p className="text-xs text-gray-500 dark:text-gray-400">Active 1h ago</p> */}
                                 </Link>
                             </div>
                         </div>
