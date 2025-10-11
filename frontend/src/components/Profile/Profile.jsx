@@ -24,6 +24,7 @@ const Profile = () => {
   const { username, reelId } = useParams();
   const [user, setUser] = useState(null);
   const [userID, setUserID] = useState(null);
+  console.log(userID);
   const [postsArr, setPostsArr] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,13 +33,14 @@ const Profile = () => {
   const [selectedMedia, setSelectedMedia] = useState(null); // To track selected media
   const [isDialogOpen, setIsDialogOpen] = useState(false);  // To handle dialog state
   const userDetails = useSelector((state) => state.counter.userDetails);
+  console.log(userDetails);
   const following = useSelector((state) => state.counter.following);
   const watchHistory = useSelector((state) => state.counter.watchHistory);
   const [page, setPage] = useState(0); // Pagination page
   const [hasMore, setHasMore] = useState(true); // If more posts are available
   const [loading, setLoading] = useState(false); // Loading state
 
-  let watchHistoryy = Object.values(watchHistory)
+  let watchHistoryy = Object.values(watchHistory);
 
   const fetchUserData = useCallback(async () => {
     try {
@@ -72,7 +74,7 @@ const Profile = () => {
     }
   }, [username, page, reelId, watchHistory, navigate]);
 
-  // Fetch the following users list
+
   const getFollowing = useCallback(async () => {
     try {
       const { data } = await api.get(`/users/${userDetails.id}/following`);
@@ -92,8 +94,8 @@ const Profile = () => {
       console.error('Error during logout:', error.message);
     }
   };
-  
-  
+
+
   const showComments = (e, post) => {
     e.preventDefault();
     setSelectedMedia(post);
@@ -162,7 +164,7 @@ const Profile = () => {
     return () => window.removeEventListener('scroll', handleScroll); // Clean up on unmount
   }, [handleScroll]);
   // console.log(user)
-  const id=user?._id
+  const id = user?._id
   // console.log(id)
 
   if (!user) return <p>Loading...</p>
@@ -304,14 +306,14 @@ const Profile = () => {
                     <>
 
                       <Card key={watch._id} className="rounded-none border-none w-full h-48 sm:h-64 md:h-72">
-                      <CardContent className="p-0 w-full h-full">
-                        {watch?.media[0]?.mediaType === 'image' ? (
-                          <img src={watch?.media[0]?.mediaPath} alt={watch?.caption} className="w-full h-full object-cover object-top" />
-                        ) : (
-                          <video src={watch?.media[0]?.mediaPath} className="w-full aspect-square object-cover" />
-                        )}
-                      </CardContent>
-                    </Card> 
+                        <CardContent className="p-0 w-full h-full">
+                          {watch?.media[0]?.mediaType === 'image' ? (
+                            <img src={watch?.media[0]?.mediaPath} alt={watch?.caption} className="w-full h-full object-cover object-top" />
+                          ) : (
+                            <video src={watch?.media[0]?.mediaPath} className="w-full aspect-square object-cover" />
+                          )}
+                        </CardContent>
+                      </Card>
 
                       <div onClick={e => showComments(e, watch)} key={watch._id} className="relative w-full h-48 sm:h-64 md:h-72 group">
                         <Card id={watch?.caption} className="rounded-none border-none w-full h-full">

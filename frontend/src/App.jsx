@@ -6,9 +6,9 @@ import { io } from 'socket.io-client';
 import { setOnlineUsers } from './features/userDetail/userDetailsSlice';
 import Profile from './components/Profile/Profile';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-import Register from './components/Auth/Register';
+// import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
-import BottomNavigation from './components/BottomNavigation';
+// import BottomNavigation from './components/BottomNavigation';
 import Navbar from './components/Navbar';
 import Home from './components/Home/Home';
 import Explore from './components/Explore/Explore';
@@ -82,9 +82,9 @@ function ChildApp() {
         <Route path="/reels/" element={<ProtectedRoute><ReelSection /></ProtectedRoute>} />
         <Route path="/accounts/edit/:id" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} />
         <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
-        <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} />
+        {/* <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} /> */}
       </Routes>
-      <BottomNavigation />
+      {/* <BottomNavigation /> */}
     </>
   );
 }

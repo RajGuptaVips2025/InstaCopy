@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
-import  { useEffect, useState } from 'react';
-import SuggestedUsers from './SuggestedUsers';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSavedPosts, setFollowing, setFollower, setSelectedPost, setRtmNotification } from '@/features/userDetail/userDetailsSlice'; // Adjust paths as necessary
 import PostComment from './PostComment';
@@ -9,6 +8,7 @@ import Stories from './Stories';
 import { InstagramSkeletonComponent } from './instagram-skeleton';
 import { useNavigate } from 'react-router-dom';
 import api from '@/api/api';
+import SuggestedUsers from './SuggestedUsers';
 
 const Home = ({ socketRef }) => {
   const [allPosts, setAllPosts] = useState([]);
@@ -184,45 +184,46 @@ const Home = ({ socketRef }) => {
   }, [socketRef, userDetails, dispatch]);
 
 
-  return (<div className='dark:bg-neutral-950 dark:text-white'>
-    <div className="flex bg-white dark:bg-neutral-950 min-h-screen">
-      {/* <Sidebar /> */}
-      <PostComment selectedMedia={selectedMedia} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
-      {/* <main className="flex-1 ml-64 flex justify-center"> */}
-      <main className="flex-1 md:ml-[72px] lg:ml-60">
-        {/* <div className="max-w-2xl w-full py-3 px-4"> */}
-        <div className="max-w-screen-xl mt-14 md:mt-0 mx-auto py-2 md:px-6 lg:px-8">
-          <div className="flex gap-0">
-            <div className="flex-1 max-w-[630px]">
-              <Stories />
-              {/* Posts */}
-              <section className="mt-2 mx-auto sm:w-[80vw] md:w-[60vw] lg:w-[468px]">
-                {allPosts.map((post) => (
-                  <Post
-                    key={post._id}
-                    post={post}
-                    userDetails={userDetails}
-                    savedPost={savedPosts}
-                    followingUserss={followingUserss}
-                    handleLike={handleLike}
-                    handleSavePosts={handleSavePosts}
-                    showComments={showComments}
-                    handleFollowing={handleFollowing}
-                    handleCommentSubmit={handleCommentSubmit}
-                    handleDeletePost={handleDeletePost}
-                  />
-                ))}
+  return (
+    <div className='dark:bg-neutral-950 dark:text-white'>
+      <div className="flex bg-white dark:bg-neutral-950 min-h-screen">
+        {/* <Sidebar /> */}
+        <PostComment selectedMedia={selectedMedia} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
+        {/* <main className="flex-1 ml-64 flex justify-center"> */}
+        <main className="flex-1 md:ml-[72px] lg:ml-60">
+          {/* <div className="max-w-2xl w-full py-3 px-4"> */}
+          <div className="max-w-screen-xl mt-14 md:mt-0 mx-auto py-2 md:px-6 lg:px-8">
+            <div className="flex gap-0">
+              <div className="flex-1 max-w-[630px]">
+                <Stories />
+                {/* Posts */}
+                <section className="mt-2 mx-auto sm:w-[80vw] md:w-[60vw] lg:w-[468px]">
+                  {allPosts.map((post) => (
+                    <Post
+                      key={post._id}
+                      post={post}
+                      userDetails={userDetails}
+                      savedPost={savedPosts}
+                      followingUserss={followingUserss}
+                      handleLike={handleLike}
+                      handleSavePosts={handleSavePosts}
+                      showComments={showComments}
+                      handleFollowing={handleFollowing}
+                      handleCommentSubmit={handleCommentSubmit}
+                      handleDeletePost={handleDeletePost}
+                    />
+                  ))}
 
-                {isLoading && <InstagramSkeletonComponent />}
-                {!hasMore && <div>No more posts to load</div>}
-              </section>
+                  {isLoading && <InstagramSkeletonComponent />}
+                  {!hasMore && <div>No more posts to load</div>}
+                </section>
+              </div>
+              <SuggestedUsers />
             </div>
-            <SuggestedUsers />
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
-  </div>
 
   );
 };

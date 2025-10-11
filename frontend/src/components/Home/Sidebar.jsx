@@ -90,6 +90,7 @@ function Sidebar({ compact = false }) {
         storyMedia.forEach((file, index) => {
             formData.append(`media`, file); // Append each file
             formData.append(`type_${index}`, types[index]); // Append the type for each file
+            formData.append('userId', userDetails.id); // Assuming userDetails has the ID
         });
 
         try {

@@ -19,7 +19,6 @@ import api from '@/api/api';
 
 function ChatBox() {
     let suggestedUser = useSelector((state) => state.counter.suggestedUser);
-    // console.log(suggestedUser);
     const [groupMembers, setGroupMembers] = useState([]);
     const [isAdmin, setIsAdmin] = useState([]);
 

@@ -27,7 +27,6 @@ export function ChatComponent({ socketRef }) {
       const userId = userDetails.id
       const response = await axios.get(`/api/conversations/conversation/${userId}`)
       const followingUsers = [...response?.data]
-      // console.log(followingUsers)
       dispatch(setFollowingUsers(followingUsers))
       return response.data
     } catch (error) {
@@ -45,7 +44,6 @@ export function ChatComponent({ socketRef }) {
     if (!socketRef?.current) return
 
     socketRef.current.on("newMessage", (newMessage) => {
-      // console.log(newMessage)
       const senderId = newMessage.senderId._id
       const filtered = convo.filter((user) => user._id !== senderId)
 
@@ -62,7 +60,6 @@ export function ChatComponent({ socketRef }) {
     })
 
     socketRef.current.on("senderMessage", (newMessage) => {
-      // console.log(newMessage)
       const reciverId = newMessage.reciverId._id
       const filtered = convo.filter((user) => user._id !== reciverId)
 
@@ -176,9 +173,6 @@ export function ChatComponent({ socketRef }) {
           <div className="flex justify-between items-center px-4 py-2 border-gray-200 dark:border-gray-700">
             <span className="font-semibold text-black dark:bg-neutral-950 dark:text-white">
               Messages
-            </span>
-            <span className="text-black dark:bg-neutral-950 dark:text-white text-sm">
-              Requests
             </span>
           </div>
           <MessagesMember socketRef={socketRef} />
