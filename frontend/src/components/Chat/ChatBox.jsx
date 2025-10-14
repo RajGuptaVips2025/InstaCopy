@@ -236,7 +236,6 @@ function ChatBox() {
     };
     return (
         <>
-            {/* <VideoCall userId={userDetails?.id} socketRef={socketRef} remoteUserId={suggestedUser?._id}  /> */}
             {suggestedUser ?
                 (<div className={`flex-grow ${suggestedUser ? "w-[90vw] md:w-full" : "w-0"} flex flex-col max-h-screen bg-white dark:bg-neutral-950 dark:text-white`}>
                     <div

@@ -72,14 +72,14 @@ function ChildApp() {
   return (
     <>
       {!hideNavbar && <Navbar />}
-      {showSidebar && <Sidebar />}
+      {showSidebar && <Sidebar compact />}
       <Routes>
         <Route path="/" element={<ProtectedRoute><Home socketRef={socketRef} /></ProtectedRoute>} />
         <Route path="/profile/:username" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/profile/:username/:reelId" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-        <Route path="/direct/inbox/:id?" element={<ProtectedRoute><ChatComponent socketRef={socketRef} /></ProtectedRoute>} />
-        <Route path="/explore/" element={<ProtectedRoute><Explore /></ProtectedRoute>} />
-        <Route path="/reels/" element={<ProtectedRoute><ReelSection /></ProtectedRoute>} />
+        <Route path="/chats/:id?" element={<ProtectedRoute><ChatComponent socketRef={socketRef} /></ProtectedRoute>} />
+        <Route path="/discover/" element={<ProtectedRoute><Explore /></ProtectedRoute>} />
+        <Route path="/vids/" element={<ProtectedRoute><ReelSection /></ProtectedRoute>} />
         <Route path="/accounts/edit/:id" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} />
         <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
         {/* <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} /> */}

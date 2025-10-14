@@ -153,15 +153,23 @@ export function ChatComponent({ socketRef }) {
   }
 
   return (
-    <div className="flex h-screen">
+    // <div className="flex h-screen">
+    <div className="flex h-screen pt-16 md:pt-12 lg:pt-12">
       <div className="flex-1 flex dark:bg-neutral-950 dark:text-white">
         {/* Sidebar */}
         <Sidebar compact />
-        <div
+        {/* <div
           className={`${
             suggestedUser ? "w-0" : "w-full"
           } ml-20 md:w-80 border-r border-gray-200 dark:border-zinc-800 flex flex-col bg-white dark:bg-neutral-950 dark:text-white`}
-        >
+        > */}
+
+        <div
+  className={`${
+    suggestedUser ? "w-0" : "w-full"
+  } md:w-80 border-r border-gray-200 dark:border-zinc-800 flex flex-col bg-white dark:bg-neutral-950 dark:text-white`}
+>
+
           <div className="p-4 border-gray-200 dark:border-zinc-800 dark:bg-neutral-950 dark:text-white flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <span className="font-semibold flex items-center gap-2 cursor-pointer dark:bg-neutral-950 dark:text-white">
@@ -169,9 +177,7 @@ export function ChatComponent({ socketRef }) {
               </span>
             </div>
             <div className="flex space-x-2">
-              {/* Add SearchMessageComponent for searching users to message */}
               <SearchMessageComponent socketRef={socketRef} />
-              {/* Keep the existing group creation component */}
               <SearchDialogWithCheckboxesComponent socketRef={socketRef} />
             </div>
           </div>
@@ -182,7 +188,6 @@ export function ChatComponent({ socketRef }) {
           </div>
           <MessagesMember socketRef={socketRef} />
         </div>
-        {/* Main Chat Area */}
         <ChatBox socketRef={socketRef} />
       </div>
     </div>
