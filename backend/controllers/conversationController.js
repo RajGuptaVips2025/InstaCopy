@@ -5,58 +5,7 @@ const GroupChat = require('../models/groupChatSchema')
 const cloudinary = require('../config/cloudinary')
 const { getReciverSocketId, io } = require('../socket/socket');
 
-// For individual message sending
-// const sendMessage = async (req, res) => {
-//   try {
-//     const { textMessage: message, senderId, messageType } = req.body;
-//     const receiverId = req.params.id;
 
-//     // Handle file upload (if exists)
-//     let mediaUrl = '';
-//     if (req.file) {
-//       const result = await cloudinary.uploader.upload(req.file.path, {
-//         resource_type: "auto",  // Automatically detects image or video
-//       });
-//       mediaUrl = result.secure_url;
-//     }
-
-//     let conversation = await Conversation.findOne({
-//       participants: { $all: [senderId, receiverId] }
-//     });
-
-//     if (!conversation) {
-//       conversation = await Conversation.create({
-//         participants: [senderId, receiverId],
-//       });
-//     }
-
-//     const newMessage = await Message.create({
-//       senderId,
-//       reciverId: receiverId,
-//       message: messageType === 'text' ? message : undefined,
-//       mediaUrl: messageType !== 'text' ? mediaUrl : undefined,
-//       messageType,
-//     });
-
-//     conversation.messages.push(newMessage._id);
-//     await conversation.save();
-
-//     // Populate the new message with sender and receiver details
-//     const populatedMessage = await Message.findById(newMessage._id)
-//       .populate('senderId', 'username profilePicture') // Populate sender details
-//       .populate('reciverId', 'username profilePicture'); // Populate receiver details
-
-//     const receiverSocketId = getReciverSocketId(receiverId);
-//     if (receiverSocketId) {
-//       io.to(receiverSocketId).emit('newMessage', populatedMessage);
-//     }
-
-//     res.status(200).json({ success: true, newMessage: populatedMessage });
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).json({ error: 'Server error' });
-//   }
-// };
 
 const sendMessage = async (req, res) => {
   try {

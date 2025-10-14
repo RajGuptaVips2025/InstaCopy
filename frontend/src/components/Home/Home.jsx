@@ -222,34 +222,3 @@ const Home = ({ socketRef }) => {
 
 export default Home;
 
-
-
-{/* <main className="flex-1 md:ml-[72px] lg:ml-60">
-          <div className="max-w-screen-xl mt-14 md:mt-0 mx-auto py-2 md:px-6 lg:px-8">
-            <div className="flex gap-0">
-              <div className="flex-1 max-w-[630px]">
-                <Stories />
-                <section className="mt-2 mx-auto sm:w-[80vw] md:w-[60vw] lg:w-[468px]">
-                  {allPosts.map((post) => (
-                    <Post
-                      key={post._id}
-                      post={post}
-                      userDetails={userDetails}
-                      savedPost={savedPosts}
-                      followingUserss={followingUserss}
-                      handleLike={handleLike}
-                      handleSavePosts={handleSavePosts}
-                      showComments={showComments}
-                      handleFollowing={handleFollowing}
-                      handleCommentSubmit={handleCommentSubmit}
-                      handleDeletePost={handleDeletePost}
-                    />
-                  ))}
-
-                  {isLoading && <InstagramSkeletonComponent />}
-                  {!hasMore && <div>No more posts to load</div>}
-                </section>
-              </div>
-            </div>
-          </div>
-        </main> */}

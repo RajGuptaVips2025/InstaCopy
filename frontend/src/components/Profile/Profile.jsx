@@ -203,9 +203,9 @@ const Profile = () => {
                     ) : (
                       <>
                         <Button onClick={(e) => handleFollowing(e, userID)} variant="secondary" className="mr-2 rounded-lg px-4" size="sm">{followingUserss?.includes(userID) ? "Following" : "follow"}</Button>
-                        <Link to={`/direct/inbox/${id}`}>
-                          <Button variant="secondary" className="rounded-lg px-4" size="sm">Message</Button>
-                        </Link>
+                        <Button asChild variant="secondary" className="rounded-lg px-4" size="sm">
+                          <Link to="/chats/">Message</Link>
+                        </Button>
                       </>
                     )}
                   </div>

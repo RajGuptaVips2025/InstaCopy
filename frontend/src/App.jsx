@@ -1,25 +1,22 @@
 // App.jsx
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation, matchPath } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { setOnlineUsers } from './features/userDetail/userDetailsSlice';
 import Profile from './components/Profile/Profile';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-// import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
-// import BottomNavigation from './components/BottomNavigation';
-import Navbar from './components/Navbar';
 import Home from './components/Home/Home';
 import Explore from './components/Explore/Explore';
 import ReelSection from './components/Explore/ReelSection';
 import { ProfileEdit } from './components/Profile/profile-edit';
 import { ChatComponent } from './components/Chat/ChatComponent';
-import Sidebar from './components/Home/Sidebar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GuestRoute from './components/ProtectedRoute/GuestRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Navbar from './components/Home/Navbar';
 
 function ChildApp() {
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -59,20 +56,13 @@ function ChildApp() {
     }
   }, [userDetails, dispatch, navigate, BASE_URL]);
 
-  // Determine when to hide Navbar and show Sidebar based on the current route.
-  const hideNavbar = ['/login', '/register', '/direct/inbox'].includes(location.pathname) ||
-    matchPath("/profile/:username", location.pathname) ||
-    matchPath("/call/:remoteUserId/", location.pathname) ||
-    matchPath("/profile/:username/:reelId", location.pathname);
-
-  const showSidebar = ['/', '/profile/:username', '/explore', '/reels', '/admindashboard']
+  const showNavbar = ['/', '/profile/:username', '/discover', '/vids', '/chats']
     .some((path) => location.pathname.startsWith(path)) &&
-    !['/login', '/register', '/direct/inbox'].includes(location.pathname);
+    !['/login', '/register', '/chats'].includes(location.pathname);
 
   return (
     <>
-      {!hideNavbar && <Navbar />}
-      {showSidebar && <Sidebar compact />}
+      {showNavbar && <Navbar compact />}
       <Routes>
         <Route path="/" element={<ProtectedRoute><Home socketRef={socketRef} /></ProtectedRoute>} />
         <Route path="/profile/:username" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
@@ -82,9 +72,7 @@ function ChildApp() {
         <Route path="/vids/" element={<ProtectedRoute><ReelSection /></ProtectedRoute>} />
         <Route path="/accounts/edit/:id" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} />
         <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
-        {/* <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} /> */}
       </Routes>
-      {/* <BottomNavigation /> */}
     </>
   );
 }
