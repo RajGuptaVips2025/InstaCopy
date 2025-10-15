@@ -23,9 +23,6 @@ const googleLogin = async (req, res) => {
     
     if (!user) {
       isNewUser = true;
-      // 💡 NEW LOGIC: Generate a unique, but ugly, placeholder username
-      // We use part of the Google ID to guarantee uniqueness, 
-      // ensuring the DB insert succeeds and future lookups by this placeholder work.
       const baseUsername = name.toLowerCase().replace(/\s/g, '');
       const uniqueIdSuffix = googleId.slice(-6); // Last 6 chars of Google ID
       const placeholderUsername = `${baseUsername}-${uniqueIdSuffix}`; 
@@ -36,16 +33,12 @@ const googleLogin = async (req, res) => {
         email,
         profilePicture: picture,
         googleId, 
-        // 🛑 OPTIONAL: Add a flag to guide redirect on frontend
         needsUsername: true,              
       });
     }
 
-    // Check if the user has the 'needsUsername' flag (for returning users 
-    // from the duplicate-name era, and newly created ones)
-    const needsUsername = isNewUser || user.username.includes('-'); // Or use a dedicated DB flag
+    const needsUsername = isNewUser || user.username.includes('-'); 
     
-    // const token = jwt.sign({ id: user._id, email }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const token = jwt.sign(
       { id: user._id, email, needsUsername: user.needsUsername || isNewUser }, 
       process.env.JWT_SECRET, 
@@ -67,5 +60,6 @@ const googleLogin = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 module.exports = { googleLogin };

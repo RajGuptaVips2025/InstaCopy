@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { BiSolidMoviePlay } from 'react-icons/bi';
 import { FaHeart } from 'react-icons/fa';
 import { IoChatbubbleSharp } from "react-icons/io5";
 import PostComment from '../Home/PostComment';
@@ -124,22 +123,6 @@ const ExploreGrid = () => {
                   transition={{ duration: 0.2 }}
                 >
                   {renderMedia(post)}
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="absolute top-5 right-5 text-white"
-                  >
-                    <BiSolidMoviePlay size={25} />
-                  </motion.div>
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="absolute bottom-0 left-0 p-5 w-full bg-gradient-to-t from-black/50 to-transparent text-white"
-                  >
-                    {post?.caption}
-                  </motion.p>
                 </motion.div>
               );
             }
@@ -154,22 +137,6 @@ const ExploreGrid = () => {
                 transition={{ duration: 0.2 }}
               >
                 {renderMedia(post)}
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="absolute top-5 right-5 text-white"
-                >
-                  <BiSolidMoviePlay size={25} />
-                </motion.div>
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="absolute bottom-0 left-0 p-5 bg-gradient-to-t from-black/50 to-transparent w-full text-white"
-                >
-                  {post?.caption}
-                </motion.p>
               </motion.div>
             );
           })}

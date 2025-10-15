@@ -64,7 +64,6 @@ function ChatBox() {
 
         try {
             const groupId = suggestedUser._id;
-            // Replace `/api/group/${groupId}/rename` with your actual backend endpoint
             await api.put(`/conversations/group/update/groupName/${groupId}`, {
                 groupName: newGroupName.trim(),
             });
@@ -200,7 +199,6 @@ function ChatBox() {
 
             for (const userId of members) {
                 const response = await api.put(`/conversations/group/add/member/${groupId}`, { userId });
-                // console.log(`Added user ${userId}:`, response.data);
                 setGroupMembers((prevGroupMembers) => [
                     ...prevGroupMembers,
                     response.data.newUser
@@ -225,7 +223,6 @@ function ChatBox() {
             // Update state dynamically to remove the member from the list at runtime
             setGroupMembers((prevMembers) => {
                 const updatedMembers = prevMembers.filter((member) => member._id != userId);
-                // console.log("Updated members:", updatedMembers); // Log to ensure state is updating
                 return updatedMembers;
             });
 
@@ -249,19 +246,10 @@ function ChatBox() {
                             <div>
                                 <Link to={`/profile/${suggestedUser?.username}`}>
                                     <p className="font-semibold text-xs md:text-sm dark:text-white">{suggestedUser && 'groupName' in suggestedUser ? suggestedUser?.groupName : suggestedUser?.username}</p>
-                                    {/* <p className="text-xs text-gray-500 dark:text-gray-400">Active 1h ago</p> */}
                                 </Link>
                             </div>
                         </div>
                         <div className="flex">
-                            {/* Add your content here */}
-                            <Button variant="ghost" size="sm" className="text-black dark:text-white">
-                                <Phone className="h-6 w-6" />
-                            </Button>
-                            <Button variant="ghost" size="sm" className="text-black dark:text-white">
-                                <Video className="h-7 w-7" />
-                            </Button>
-
                             <Sheet>
                                 <SheetTrigger asChild>
                                     <Button variant="ghost" size="sm" className="text-black dark:text-white hidden md:block">
@@ -475,7 +463,6 @@ function ChatBox() {
                         </div>
                         {messages && Array.isArray(messages) && messages?.map((message, index) => (
                             <div
-                                // key={index}
                                 key={message._id}
                                 className={`flex ${message.senderId?._id === userDetails.id || message.senderId === userDetails.id
                                     ? "justify-end"
@@ -528,7 +515,6 @@ function ChatBox() {
                             </div>
                         ))}
                         <div ref={messagesEndRef} />
-                        {/* Dialog for displaying media */}
                         {selectedMedia && (
                             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                                 <DialogTrigger className="hidden" />
@@ -582,8 +568,6 @@ function ChatBox() {
                                 onSubmit={(e) => sendMessageHandle(e, suggestedUser._id)}
                                 className="flex items-center space-x-2 md:space-x-4 border border-zinc-800 bg-transparent rounded-full px-4 py-2"
                             >
-                                {/* <Smile className="h-6 w-6 text-black dark:text-white" /> */}
-                                {/* Smile Icon */}
                                 <div className="relative">
                                     <Smile
                                         onClick={() => setShowEmojiPicker((prev) => !prev)}

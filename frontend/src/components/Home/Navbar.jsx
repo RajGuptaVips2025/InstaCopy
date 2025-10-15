@@ -270,7 +270,6 @@ function Navbar({ compact = false }) {
                     <span className=" text-lg text-white-400">SocialSphere</span>
                 </Link>
 
-                {/* <div className="flex items-center space-x-6"> */}
                 <div className="hidden md:flex items-center space-x-6">
                     {links.map((link) => (
                         <div key={link.id} className="relative">

@@ -7,12 +7,14 @@ import { setSuggestedUser } from '@/features/userDetail/userDetailsSlice';
 import { ScrollArea } from '../ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 function MessagesMember({ socketRef }) {
     const followingUsers = useSelector((state) => state.counter.followingUsers);
     console.log(followingUsers);
     const onlineUsers = useSelector((state) => state.counter.onlineUsers);
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // 🆕 add this
 
     return (
         <ScrollArea className="flex-grow">
@@ -26,7 +28,12 @@ function MessagesMember({ socketRef }) {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
-                            onClick={() => dispatch(setSuggestedUser(suggestedUser))}
+                            onClick={ () => {
+                                    dispatch(setSuggestedUser(suggestedUser))
+                                    navigate(`/chats/${suggestedUser._id}`);
+                                }
+                            }
+                            
                             className="flex items-center space-x-3 p-3 hover:bg-gray-100 dark:hover:bg-neutral-700 cursor-pointer rounded-lg"
                         >
                             <div className="relative">
@@ -87,7 +94,7 @@ function MessagesMember({ socketRef }) {
                                         <p className="text-xs text-gray-400">Active now</p>
                                     )}
                                 </div>
-                            </div>                            
+                            </div>
 
                         </motion.div>
                     ))}

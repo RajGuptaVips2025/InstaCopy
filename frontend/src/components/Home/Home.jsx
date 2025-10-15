@@ -187,8 +187,6 @@ const Home = ({ socketRef }) => {
     <div className='dark:bg-neutral-950 dark:text-white'>
       <div className="flex bg-white dark:bg-neutral-950 min-h-screen">
         <PostComment selectedMedia={selectedMedia} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
-
-        {/* <main className="flex justify-center w-full mt-16 md:mt-0 px-2"> */}
         <main className="flex justify-center w-full pt-20 md:pt-16 px-2">
           <div className="w-full max-w-[500px] flex flex-col items-center">
             <Stories />

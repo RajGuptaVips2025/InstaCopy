@@ -279,7 +279,7 @@ const Post = ({ post, userDetails, savedPost, followingUserss, handleLike, handl
               </motion.div>
             </div>
 
-            <motion.button
+            {/* <motion.button
               onClick={(e) => handleSavePosts(e, post._id)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -296,7 +296,7 @@ const Post = ({ post, userDetails, savedPost, followingUserss, handleLike, handl
                   className="hover:text-zinc-800 dark:hover:text-zinc-500 transition-colors dark:text-white duration-100"
                 />
               )}
-            </motion.button>
+            </motion.button> */}
           </motion.div>
 
           <motion.p
@@ -307,16 +307,6 @@ const Post = ({ post, userDetails, savedPost, followingUserss, handleLike, handl
           >
             {post?.likes?.length > 0 ? `${post?.likes?.length} likes` : ""}
           </motion.p>
-
-          <motion.div
-            className="text-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.25, duration: 0.3 }}
-          >
-            <p className="font-semibold">{post?.caption}</p>
-            This is a sample caption for post . #instagram #clone
-          </motion.div>
 
           <motion.button
             onClick={(e) => showComments(e, post)}

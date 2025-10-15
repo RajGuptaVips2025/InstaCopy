@@ -66,8 +66,6 @@ export function ProfileEdit() {
   return (
     (
       <>
-        {/* <div className="flex w-full"> */}
-        {/* <div className="flex w-full pt-12 md:pt-16"> */}
         <div className="flex w-full h-full pt-12 sm:pt-12 lg:pt-12">
           <div className="container mx-auto dark:bg-neutral-950 dark:text-white h-screen overflow-y-auto">
             <div className="flex flex-col md:flex-row gap-1">

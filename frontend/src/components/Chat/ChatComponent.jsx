@@ -13,8 +13,10 @@ import Sidebar from "../Home/Navbar"
 import api from "@/api/api"
 import axios from "axios"
 import PropTypes from "prop-types"
+import { useParams } from "react-router-dom";
 
 export function ChatComponent({ socketRef }) {
+  const { id } = useParams(); // 🆕 get the userId/groupId from URL
   const messages = useSelector((state) => state.counter.messages)
   const userDetails = useSelector((state) => state.counter.userDetails)
   const suggestedUser = useSelector((state) => state.counter.suggestedUser)
@@ -41,6 +43,16 @@ export function ChatComponent({ socketRef }) {
       }
     }
   }
+
+  useEffect(() => {
+    if (id && followingusers.length > 0) {
+      const found = followingusers.find(user => user._id === id);
+      if (found) {
+        dispatch(setSuggestedUser(found));
+      }
+    }
+  }, [id, followingusers]);
+
 
   const getRealTimeMessages = () => {
     if (!socketRef?.current) return
@@ -164,7 +176,7 @@ export function ChatComponent({ socketRef }) {
           <div className="p-4 border-gray-200 dark:border-zinc-800 dark:bg-neutral-950 dark:text-white flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <span className="font-semibold flex items-center gap-2 cursor-pointer dark:bg-neutral-950 dark:text-white">
-                {userDetails.username} <IoIosArrowDown />
+                {userDetails.username}
               </span>
             </div>
             <div className="flex space-x-2">

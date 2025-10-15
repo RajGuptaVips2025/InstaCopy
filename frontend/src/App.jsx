@@ -10,13 +10,14 @@ import Login from './components/Auth/Login';
 import Home from './components/Home/Home';
 import Explore from './components/Explore/Explore';
 import ReelSection from './components/Explore/ReelSection';
-import { ProfileEdit } from './components/Profile/profile-edit';
+// import { ProfileEdit } from './components/Profile/profile-edit';
 import { ChatComponent } from './components/Chat/ChatComponent';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GuestRoute from './components/ProtectedRoute/GuestRoute';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Navbar from './components/Home/Navbar';
+
 
 function ChildApp() {
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -70,7 +71,7 @@ function ChildApp() {
         <Route path="/chats/:id?" element={<ProtectedRoute><ChatComponent socketRef={socketRef} /></ProtectedRoute>} />
         <Route path="/discover/" element={<ProtectedRoute><Explore /></ProtectedRoute>} />
         <Route path="/vids/" element={<ProtectedRoute><ReelSection /></ProtectedRoute>} />
-        <Route path="/accounts/edit/:id" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} />
+        {/* <Route path="/accounts/edit/:id" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} /> */}
         <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
       </Routes>
     </>

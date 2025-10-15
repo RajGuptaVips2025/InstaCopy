@@ -46,13 +46,15 @@ const Profile = () => {
     try {
       setIsLoading(true);
       const { data } = await api.get(`/users/${username}?page=${page}&limit=10`);
+      console.log(data);
       // console.log(data);
       setProfilePicture(data?.user?.profilePicture);
       setUserID(data?.user?._id);
       setUser(data.user);
 
       // Append new posts to the existing posts array for pagination
-      setPostsArr((prevPosts) => [...prevPosts, ...data.posts]);
+      // setPostsArr((prevPosts) => [...prevPosts, ...data.posts]);
+      setPostsArr((prevPosts) => [...data.posts.reverse(), ...prevPosts]);
 
       // Filter watched posts based on user's watch history
       setWatched(data?.posts?.filter(post =>
@@ -174,14 +176,9 @@ const Profile = () => {
     <div className="flex flex-col min-h-screen bg-white dark:text-white dark:bg-neutral-950">
       <PostComment selectedMedia={selectedMedia} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
       {isLoading && <InstagramProfileSkeletonComponent />}
-      {/* Main content */}
-      {/* <main className="profile flex-grow sm:px-8 lg:px-[72px] py-[60px] lg:ml-[14.5%] dark:bg-neutral-950 dark:text-white"> */}
-      {/* <main className="profile flex flex-col items-center justify-start flex-grow px-4 sm:px-8 lg:px-[72px] py-10 dark:bg-neutral-950 dark:text-white min-h-screen"> */}
       <main className="profile flex flex-col items-center justify-start flex-grow px-4 sm:px-8 lg:px-[72px] pt-[80px] pb-10 dark:bg-neutral-950 dark:text-white min-h-screen">
         <div className="w-full max-w-3xl mx-auto flex flex-col items-center justify-center">
           <div className="w-full mx-auto">
-            {/* Profile info */}
-            {/* <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 md:gap-6 mb-6"> */}
             <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-6 mb-10 w-full text-center sm:text-left">
               <Avatar className="w-20 h-20 sm:w-32 sm:h-32">
                 <AvatarImage src={profilePicture || "/placeholder.svg?height=128&width=128"} alt={`${user.username}`} className="object-cover object-top" />
@@ -193,18 +190,19 @@ const Profile = () => {
                   <div className="flex gap-1">
                     {userDetails?.id === userID ? (
                       <>
-                        <Link to={`/accounts/edit/${user?._id}`}>
-                          <Button variant="secondary" className="mr-2 rounded-lg px-4" size="sm">Edit profile</Button>
-                        </Link>
-                        <Button onClick={handleLogout} variant="ghost" size="icon" className="md:ml-2">
-                          <SettingsIcon className="h-6 w-6" />
+                        <Button
+                          onClick={handleLogout}
+                          variant="ghost"
+                          className="md:ml-2 border-2 border-black text-red-600 hover:text-red-700"
+                        >
+                          Logout
                         </Button>
                       </>
                     ) : (
                       <>
                         <Button onClick={(e) => handleFollowing(e, userID)} variant="secondary" className="mr-2 rounded-lg px-4" size="sm">{followingUserss?.includes(userID) ? "Following" : "follow"}</Button>
                         <Button asChild variant="secondary" className="rounded-lg px-4" size="sm">
-                          <Link to="/chats/">Message</Link>
+                          <Link to={`/chats/${userID}`}>Message</Link>
                         </Button>
                       </>
                     )}
@@ -212,7 +210,6 @@ const Profile = () => {
                 </div>
                 <div className="flex justify-center md:justify-start space-x-8 sm:space-x-16 mb-4">
                   <span><strong>{postsArr.length}</strong> posts</span>
-                  {/* <span><strong>{user.followers?.length || 0}</strong> followers</span> */}
                   {userDetails?.id === userID ?
                     <span><strong>{user.followers?.length || 0}</strong> followers</span>
                     :
@@ -230,20 +227,10 @@ const Profile = () => {
               <Tabs defaultValue="posts" className="w-full h-full">
                 <TabsList className="w-full justify-center">
                   <TabsTrigger value="posts" className="flex-1 text-sm"><GridIcon className="w-4 h-4 mr-2" />Posts</TabsTrigger>
-                  {userDetails.id === userID ? (
-                    <TabsTrigger value="saved" className="flex-1 text-sm"><BookmarkIcon className="w-4 h-4 mr-2" />Saved</TabsTrigger>
-                  ) : (
-                    <TabsTrigger value="saved" className="flex-1 text-sm"><Clapperboard className="w-4 h-4 mr-2" />Reels</TabsTrigger>
-                  )}
-                  <TabsTrigger value="tagged" className="flex-1 text-sm"><UserIcon className="w-4 h-4 mr-2" />Tagged</TabsTrigger>
-                  {userDetails.id !== userID && (
-                    <TabsTrigger value="watched" className="flex-1 text-sm"><UserIcon className="w-4 h-4 mr-2" />Watched</TabsTrigger>
-                  )}
                 </TabsList>
 
                 {/* Posts Tab Content */}
                 <TabsContent value="posts" className="w-full h-full">
-                  {/* <div className="grid grid-cols-3 sm:grid-cols-3 gap-1 mb-20 w-full h-full"> */}
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 justify-center items-center w-full max-w-3xl mx-auto py-6">
                     {postsArr.map((post) => (
                       <div onClick={e => showComments(e, post)} key={post._id} className="relative w-full h-48 sm:h-64 md:h-72 group">
@@ -257,7 +244,6 @@ const Profile = () => {
                           </CardContent>
                         </Card>
 
-                        {/* Dropdown menu positioned at top-right */}
                         <div className="absolute top-2 right-2 z-20">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -285,16 +271,13 @@ const Profile = () => {
                               <div className="likes flex gap-2 justify-center items-center"><FaHeart className='w-6 h-6' /> {post?.likes?.length}</div>
                               <div className="comments flex gap-2 justify-center items-center"><IoChatbubbleSharp className="w-6 h-6 -rotate-90" /> {post?.comments?.length}</div>
                             </p>
-                            <p className='text-white'>caption : <span className='font-semibold'>{post?.caption}</span></p>
                           </div>
                         </div>
                       </div>
                     ))}
                   </div>
-
                 </TabsContent>
 
-                {/* Other Tabs Content (saved, tagged, watched) */}
                 <TabsContent value="saved">
                   <div className="text-center py-8 text-gray-500">No saved posts yet.</div>
                 </TabsContent>
@@ -353,7 +336,6 @@ const Profile = () => {
                                 <div className="likes flex gap-2 justify-center items-center"><FaHeart className='w-6 h-6' /> {watch?.likes?.length}</div>
                                 <div className="comments flex gap-2 justify-center items-center"><IoChatbubbleSharp className="w-6 h-6 -rotate-90" /> {watch?.comments?.length}</div>
                               </p>
-                              <p className='text-white'>caption : <span className='font-semibold'>{watch?.caption}</span></p>
                             </div>
                           </div>
                         </div>
