@@ -1,9 +1,12 @@
 // routes/authRoutes.js
 const express = require('express');
-const { googleLogin  } = require('../controllers/authController');
+const { googleLogin, getCurrentUser, logout  } = require('../controllers/authController');
+const authMiddleware = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 router.post('/google', googleLogin);
+router.get('/me', authMiddleware, getCurrentUser);
+router.post('/logout', logout); // Or use .get('/logout')
 
 module.exports = router;
 

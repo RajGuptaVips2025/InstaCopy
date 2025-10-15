@@ -5,7 +5,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
 const postRoutes = require('./routes/postRoutes');
-const userRoutes = require('./routes/userRoutes'); // Updated userRoutes with reel history functionality
+const userRoutes = require('./routes/userRoutes'); 
 const conversationRoutes = require('./routes/conversationRoutes');
 const searchRoutes = require('./routes/searchRoutes');
 const storyRoutes = require('./routes/storyRoutes');
@@ -50,7 +50,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
-app.use('/api/users', userRoutes); // Now includes reel history functionality
+app.use('/api/users', userRoutes); 
 app.use('/api/conversations', conversationRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/story', storyRoutes);
