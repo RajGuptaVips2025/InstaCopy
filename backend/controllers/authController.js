@@ -45,16 +45,10 @@ const googleLogin = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // res.cookie('token', token, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === 'production'
-    // });
-
-    // controllers/googleAuthController.js (or authController.js)
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict',
       path: '/',
     });
 
@@ -71,11 +65,9 @@ const googleLogin = async (req, res) => {
 };
 
 const getCurrentUser = (req, res) => {
-  // authMiddleware will already set req.user
   const user = req.user;
   if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
-  // Don't send sensitive fields
   const safeUser = {
     _id: user._id,
     fullName: user.fullName,
@@ -89,10 +81,11 @@ const getCurrentUser = (req, res) => {
 
 const logout = async (req, res) => {
   try {
+
     res.clearCookie('token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict',
       path: '/',
     });
 
