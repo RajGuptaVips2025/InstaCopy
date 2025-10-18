@@ -1,8 +1,7 @@
-/* MessagesMember.jsx */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from 'react';
-import {  useSelector, shallowEqual } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import { ScrollArea } from '../ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -22,7 +21,7 @@ function MessagesMember({ socketRef }) {
         {followingUsers.map((suggestedUser) => (
           <Link
             to={`/chats/${suggestedUser._id}`}
-            key={`link-${suggestedUser._id}`} 
+            key={`link-${suggestedUser._id}`}
           >
             <motion.div
               key={suggestedUser._id}
@@ -69,8 +68,8 @@ function MessagesMember({ socketRef }) {
                     <span className="text-xs text-gray-400 dark:text-gray-500 whitespace-nowrap ml-2 flex-shrink-0">
                       {suggestedUser.lastMessage?.createdAt
                         ? new Date(suggestedUser.lastMessage.createdAt).toLocaleString("en-IN", {
-                            day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit"
-                          })
+                          day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit"
+                        })
                         : ""}
                     </span>
                   </div>

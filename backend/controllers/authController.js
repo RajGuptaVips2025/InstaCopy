@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userSchema');
 const { oauth2client } = require('../config/googleConfig');
 
+const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+
 const googleLogin = async (req, res) => {
   try {
     const { code } = req.query;
@@ -42,14 +44,39 @@ const googleLogin = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, email, needsUsername: user.needsUsername || isNewUser },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: 60 * 60 * 24 * 30 }
     );
+
+    // res.cookie('token', token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === 'production',
+    //   sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict',
+    //   path: '/',
+    // });
+
+    console.log('cookieOptions', {
+      NODE_ENV: process.env.NODE_ENV,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000
+    });
+
+    // ✅ Set cookie for 30 days
+    // res.cookie('token', token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === 'production', // true only for HTTPS
+    //   sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+    //   path: '/',
+    //   maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    // });
 
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
       path: '/',
+      maxAge: THIRTY_DAYS,
+      expires: new Date(Date.now() + THIRTY_DAYS),
     });
 
 
@@ -79,13 +106,29 @@ const getCurrentUser = (req, res) => {
   res.status(200).json({ user: safeUser });
 };
 
+// const logout = async (req, res) => {
+//   try {
+
+//     res.clearCookie('token', {
+//       httpOnly: true,
+//       secure: process.env.NODE_ENV === 'production',
+//       sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict',
+//       path: '/',
+//     });
+
+//     res.status(200).json({ message: 'Logout successful' });
+//   } catch (err) {
+//     console.error('Logout error:', err);
+//     res.status(500).json({ error: 'Internal server error during logout' });
+//   }
+// };
+
 const logout = async (req, res) => {
   try {
-
     res.clearCookie('token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
       path: '/',
     });
 
